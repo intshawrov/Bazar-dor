@@ -12,7 +12,7 @@ import {
     TextArea,
     TextField,
 } from "@heroui/react";
-// import { authClient } from '@/app/lib/auth-client';
+import { authClient } from '@/app/lib/auth-client';
 
 
 const SignUp = () => {
@@ -25,12 +25,15 @@ const SignUp = () => {
             data[key] = value.toString();
         });
 
+        console.log("Form extracted data:", data);
+
         const { data: signUpData, error } = await authClient.signUp.email({
             name: data.name,
             email: data.email,
             password: data.password,
             callbackURL: "/",
         });
+        console.log("Sign up success:", signUpData);
     };
 
     return (
