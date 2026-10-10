@@ -20,19 +20,19 @@ export const auth = betterAuth({
             clientSecret: process.env.BETTER_AUTH_GOOGLE_CLIENT_SECRET,
         },
     },
-    emailVerification: {
-        sendVerificationEmail: async ({ user, url, token }, request) => {
-            void resend.emails.send({
-                from: 'Acme <onboarding@resend.dev>',
-                to: user.email,
-                subject: 'Verify Email',
-                html: `Click the link to verify your email: ${url}`
-            });
-        },
-        sendOnSignUp:true,
-        autoSignInAfterVerification: true,
-        expiresIn: 60*5,
-    },
+    // emailVerification: {
+    //     sendVerificationEmail: async ({ user, url, token }, request) => {
+    //         void resend.emails.send({
+    //             from: 'Acme <onboarding@resend.dev>',
+    //             to: user.email,
+    //             subject: 'Verify Email',
+    //             html: `Click the link to verify your email: ${url}`
+    //         });
+    //     },
+    //     sendOnSignUp:true,
+    //     autoSignInAfterVerification: true,
+    //     expiresIn: 60*5,
+    // },
     database: mongodbAdapter(db, {
         client,
     }),

@@ -18,8 +18,9 @@ export default async function Home() {
 
   const products = await getProducts();
 
-  const downProducts = products.filter(p => p.change.dir == 'down');
-  const upProducts = products.filter(p => p.change.dir == 'up');
+  const downProducts = products.filter(p => p.change.dir === 'down').sort((a, b) => a.change.pct - b.change.pct).slice(0, 6);
+  const upProducts = products.filter(p => p.change.dir === 'up').sort((a, b) => b.change.pct - a.change.pct).slice(0, 6);
+
   console.log(downProducts)
   return (
     <>

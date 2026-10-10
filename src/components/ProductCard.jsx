@@ -1,7 +1,25 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
+import { useRouter } from 'next/navigation';
+import { authClient } from '@/app/lib/auth-client';
 
 const ProductCard = ({ product }) => {
+  const router = useRouter();
+  const { data: session, isPending } = authClient.useSession();
+
+  const handleProductClick = () => {
+    if (isPending) return;
+
+    if (!session) {
+      router.push('/sign-in');
+      return;
+    }
+
+    router.push(`/product/${product?.slug}`);
+  };
+
   const toBengaliNumber = (num) => {
     const bnNums = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
 
@@ -24,8 +42,9 @@ const ProductCard = ({ product }) => {
       : 0;
 
 return (
-  <Link href={`/product/${product?.slug}`}>
-  <div className="w-full min-w-0 rounded-2xl border border-[#E1E8E1] bg-[#F0F5F0] p-3 sm:p-4 shadow-sm transition-shadow hover:shadow-md">
+  <div   onClick={handleProductClick}
+  className="cursor-pointer">
+  <div className="w-full min-w-0 rounded-2xl border border-[#E1E8E1] bg-[#F0F5F0] p-3 sm:p-4 shadow-sm transition-shadow hover:border-[#05893E]">
 
     {/* Product Name and Unit */}
     <div className="flex min-w-0 items-center gap-3">
@@ -91,7 +110,7 @@ return (
     </div>
 
   </div>
-  </Link>
+  </div>
 );
 
 };
