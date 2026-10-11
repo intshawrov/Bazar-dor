@@ -136,10 +136,12 @@ export default function Navbar({ categories = [] }) {
                             </li>
                         ))}
                         <li className="mt-4 flex flex-col gap-2 border-t border-separator pt-4">
-                            <Link href="#" className="block py-2">
+                            <Link href="/sign-in" className="block py-2 no-underline hover:no-underline">
                                 সাইন ইন
                             </Link>
+                            <Link href="/sign-up">
                             <Button className="w-full">সাইন আপ</Button>
+                            </Link>
                         </li>
                     </ul>
                 </div>
