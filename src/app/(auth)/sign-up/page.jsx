@@ -16,36 +16,50 @@ import { authClient } from '@/app/lib/auth-client';
 import Link from 'next/link';
 import { FaGithub } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
+import { useRouter } from "next/navigation";
 
 
 const SignUp = () => {
     const [password, setPassword] = useState("");
+    const router = useRouter();
 
     const onSubmit = async (e) => {
         e.preventDefault();
+
         const formData = new FormData(e.currentTarget);
-        const data = {};
-        formData.forEach((value, key) => {
-            data[key] = value.toString();
-        });
+        const data = Object.fromEntries(formData.entries());
 
-        console.log("Form extracted data:", data);
+        try {
+            const { data: signUpData, error } =
+                await authClient.signUp.email({
+                    name: data.name,
+                    email: data.email,
+                    password: data.password,
+                    callbackURL: "/",
+                });
 
-        const { data: signUpData, error } = await authClient.signUp.email({
-            name: data.name,
-            email: data.email,
-            password: data.password,
-            callbackURL: "/",
-        });
-        console.log("Sign up success:", signUpData);
+            if (error) {
+                console.error("Signup failed:", error.message);
+                return;
+            }
+            window.location.href = "/";
+            
+        } catch (error) {
+            console.error("Signup error:", error);
+        }
     };
 
     const handleGoogleSignUp = async () => {
-        const data = await authClient.signUp.social({
+    try {
+        await authClient.signIn.social({
             provider: "google",
             callbackURL: "/",
         });
-    };
+    } catch (error) {
+        console.error("Google signup failed:", error);
+    }
+};
+
 
     return (
         <div className="flex  items-center justify-center bg-[#f2f5f1] px-4 py-12">
@@ -228,3 +242,7 @@ const SignUp = () => {
 };
 
 export default SignUp;
+
+
+
+

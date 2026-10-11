@@ -41,7 +41,7 @@ export default function Navbar({ categories = [] }) {
 
     return (
         <nav className="sticky top-0 z-40 w-full border-b border-separator bg-background/70 backdrop-blur-lg">
-            <header className="mx-auto flex h-16 container mx-auto  justify-between px-6">
+            <header className="mx-auto flex h-16 w-full max-w-[1280px] mx-auto  justify-between px-6">
                 <div className="flex w-full justify-between items-center">
                     <Link href="/" className="no-underline hover:no-underline">
                         <div className="flex items-center gap-3">
@@ -50,7 +50,7 @@ export default function Navbar({ categories = [] }) {
                                 alt="Bazar Dor"
                                 width={40}
                                 height={40}
-                                className="bg-[#05893E] p-2 rounded-xl"
+                                className="bg-[#05893e] p-2 rounded-xl"
                             />
                             <div className="flex flex-col">
                                 <p className="font-bold">বাজার দর</p>
@@ -93,7 +93,19 @@ export default function Navbar({ categories = [] }) {
                     </button>
                 </div>
                 <div className="hidden w-full justify-end items-center gap-4 md:flex">
-                    {session?.user ? <><Button onClick={handleSignOut}>Logout</Button></> :
+                    {session?.user ? <>
+                        <Link href="/profile" className="no-underline hover:no-underline">
+                            <div className="flex items-center gap-2.5 rounded-full border border-neutral-200 bg-white py-1.5 pl-1.5 pr-4 shadow-sm">
+                                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#05893E] font-bold text-white text-sm uppercase">
+                                    {session.user.name ? session.user.name.charAt(0) : "U"}
+                                </div>
+                                <span className="text-sm font-semibold text-neutral-800">
+                                    {session.user.name}
+                                </span>
+                            </div>
+                        </Link>
+                        <button className="text-red-500 cursor-pointer" onClick={handleSignOut}>সাইন আউট </button>
+                    </> :
                         <> <Link href="/sign-in" className="no-underline hover:no-underline">সাইন ইন</Link>
                             <Link href="sign-up" className="no-underline hover:no-underline"><div className="bg-[#05893E] py-3 rounded-xl px-5 text-white font-semibold text-sm leading-[21px]">সাইন আপ</div></Link>
                         </>}
@@ -101,11 +113,11 @@ export default function Navbar({ categories = [] }) {
                 </div>
             </header>
             <div className="border-t border-gray-200">
-                <div className="container mx-auto hidden gap-3 px-4 py-4  list-none sm:flex sm:flex-wrap sm:gap-8">
-                {
-                    categories?.map(cat => <li key={cat?.id}><Link href={`/category/${cat?.slug}`} className="flex items-center gap-2 no-underline"><span>{cat?.icon}</span>{cat?.nameBn}</Link></li>)
-                }
-            </div>
+                <div className="w-full max-w-[1280px] mx-auto hidden gap-3 px-4 py-4  list-none sm:flex sm:flex-wrap sm:gap-8">
+                    {
+                        categories?.map(cat => <li key={cat?.id}><Link href={`/category/${cat?.slug}`} className="flex items-center gap-2 no-underline"><span>{cat?.icon}</span>{cat?.nameBn}</Link></li>)
+                    }
+                </div>
             </div>
             {isMenuOpen && (
                 <div className="border-t border-separator md:hidden">
